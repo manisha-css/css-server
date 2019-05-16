@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.5.RELEASE'
 	id 'java'
+	id 'com.github.sherter.google-java-format' version '0.8'
 }
 
 apply plugin: 'io.spring.dependency-management'
