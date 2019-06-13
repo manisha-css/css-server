@@ -21,8 +21,8 @@ repositories {
 
 sonarqube {
     properties {
-        property "sonar.projectName", "CSS-Server"
-        property "sonar.projectKey", "css-server"
+        property "sonar.projectName", "CSS-Server-Name"
+        property "sonar.projectKey", "css-server-key"
         property "sonar.sources", "src"
         property "sonar.test.inclusions", "**/*Test*/**"
     }
