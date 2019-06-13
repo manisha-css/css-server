@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-  private static final Logger LOGGER =
+  private static final Logger CHILD_LOGGER =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
   @Autowired private Environment environment;
 
@@ -25,7 +25,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   @ExceptionHandler({CssAppRuntimeException.class})
   public ResponseEntity<ErrorResponse> handleCssAppRuntimeException(
       CssAppRuntimeException ex, WebRequest request) {
-    LOGGER.error("CssAppRuntimeException {}", ex);
+    CHILD_LOGGER.error("CssAppRuntimeException {}", ex);
     ErrorResponse error =
         new ErrorResponse(Instant.now(), ex.getMessage(), request.getDescription(false));
     return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -34,7 +34,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   // handle all other exceptions
   @ExceptionHandler({Exception.class})
   public ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
-    LOGGER.error("Generic Exception {} ", ex);
+    CHILD_LOGGER.error("Generic Exception {} ", ex);
     ErrorResponse error =
         new ErrorResponse(Instant.now(), ex.getMessage(), request.getDescription(false));
     return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
