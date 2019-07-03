@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/healthcheck")
 public class HealthCheckController {
-  @Autowired private Translator translator;
-
   private static final Logger LOGGER = LoggerFactory.getLogger(HealthCheckController.class);
+  @Autowired private Translator translator;
 
   @GetMapping
   public ResponseEntity<InfoResponse> getHealthCheck(HttpServletRequest httpServletRequest) {
