@@ -25,8 +25,12 @@ public interface UserRepo extends JpaRepository<User, Long> {
   int updateNewPassword(@Param("id") long userId, @Param("password") String encodedPassword);
 
   @Modifying(flushAutomatically = true, clearAutomatically = true)
-  @Query("update User u set u.publicProfile = :publicProfile where u.id = :id")
-  int updateUserProfile(@Param("id") long userId, @Param("publicProfile") String publicProfile);
+  @Query(
+      "update User u set u.givenName = :givenName, u.publicProfile = :publicProfile where u.id = :id")
+  int updateUserProfile(
+      @Param("id") long userId,
+      @Param("givenName") String givenName,
+      @Param("publicProfile") String publicProfile);
 
   Optional<User> findByUserName(String userName);
 

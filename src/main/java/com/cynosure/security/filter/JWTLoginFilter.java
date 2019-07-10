@@ -70,7 +70,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     // Add the authentication to the Security context
     response.setStatus(HttpServletResponse.SC_OK);
     response.setContentType("application/json");
-    // get basic user dto from authenticated User
+    // get basic user dto from authenticated User - currently picked up from authenticatedUser but
+    // else UI can send separate request to get the details using ID
     ModelMapper modelMapper = new ModelMapper();
     BasicUserDto basicUserDto = modelMapper.map(authenticatedUser, BasicUserDto.class);
 

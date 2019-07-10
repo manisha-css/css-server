@@ -10,8 +10,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
+// kept this separate as eventually User entity fields & AuthUser may differ significantly
 public class AuthUser implements Serializable {
   private Long id;
+  private String givenName;
   private String userName;
   private String password;
   private Set<Role> roles = new HashSet<>();
@@ -22,6 +24,7 @@ public class AuthUser implements Serializable {
 
   public AuthUser(User user) {
     this.id = user.getId();
+    this.givenName = user.getGivenName();
     this.userName = user.getUserName();
     this.password = user.getPassword();
     this.roles = user.getRoles();

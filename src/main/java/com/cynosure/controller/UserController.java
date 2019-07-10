@@ -38,9 +38,8 @@ public class UserController {
   @Autowired private IEmailNotificationService notificationService;
 
   @PostMapping("/register")
-  public ResponseEntity<InfoResponse> registerUser(@RequestBody Object obj) {
-    // for registration - pls change the DB
-    UserDto userDto = (UserDto) obj;
+  public ResponseEntity<InfoResponse> registerUser(
+      @Validated(BasicUserDto.RegisterUserValidation.class) @RequestBody UserDto userDto) {
     InfoResponse infoResponse = new InfoResponse();
     if (!userDto.isAcceptTC()) {
       infoResponse.setMessage(translator.toLocale("register-user.accept-tc.error", null));
@@ -187,10 +186,14 @@ public class UserController {
     return new ResponseEntity<>(basicUserDto, HttpStatus.OK);
   }
 
-  public ResponseEntity<InfoResponse> saveUserDto(UserDto userDto) {
+  private ResponseEntity<InfoResponse> saveUserDto(UserDto userDto) {
     InfoResponse infoResponse = new InfoResponse();
     try {
-      // save user + send notification + create identicon
+      // save user + send notification
+      // set default profile
+      if (StringUtils.isEmpty(userDto.getPublicProfile())) {
+        userDto.setPublicProfile(CssConstant.DEFAULT_PUBLIC_PROFILE);
+      }
       long userId = userService.saveUser(userDto);
       if (userId > 0) {
         infoResponse.setMessage(translator.toLocale("register-user.save.success", null));

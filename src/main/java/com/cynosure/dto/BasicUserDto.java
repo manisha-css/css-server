@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
+// these are the fields which we want to expose to UI all the time
 public class BasicUserDto {
 
   private long id;
@@ -49,15 +50,6 @@ public class BasicUserDto {
   private String userName;
 
   private Set<Role> roles;
-
-  @Length(
-      max = CssConstant.TEXTAREA_MAXLENGTH_REGULAR,
-      groups = {MyProfileValidation.class})
-  @Pattern(
-      regexp = CssConstant.ALPHANUMERIC_SOMESPECIALCHARS_PATTERN,
-      message = CssConstant.MESSAGE_INVALID_PATTERN,
-      groups = {MyProfileValidation.class})
-  private String publicProfile = "No public profile is set";
 
   // different interfaces for different type of form validations
   public interface RegisterUserValidation {}

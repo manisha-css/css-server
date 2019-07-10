@@ -1,6 +1,8 @@
 package com.cynosure.dto;
 
 import com.cynosure.util.CssConstant;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -21,12 +23,15 @@ public class UserDto extends BasicUserDto {
       regexp = CssConstant.SECRETKEY_PATTERN,
       message = CssConstant.MESSAGE_INVALID_PATTERN,
       groups = {RegisterUserValidation.class})
+  @JsonProperty(access = Access.WRITE_ONLY)
   private String userPassword; // this is the password to be used coming form user as input
 
+  @JsonProperty(access = Access.WRITE_ONLY)
   private String
       userVerificationCode; // this is the verification code to be used coming form user as input
 
   @NotBlank(groups = {ChangePasswordValidation.class})
+  @JsonProperty(access = Access.WRITE_ONLY)
   private String oldPassword;
 
   @NotBlank(groups = {ChangePasswordValidation.class})
@@ -38,7 +43,8 @@ public class UserDto extends BasicUserDto {
       regexp = CssConstant.SECRETKEY_PATTERN,
       message = CssConstant.MESSAGE_INVALID_PATTERN,
       groups = {ChangePasswordValidation.class})
-  private String newPassword;
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private String newPassword; // this is user input
 
   @NotBlank(groups = {RegisterUserValidation.class, ChangePasswordValidation.class})
   @Length(
@@ -49,7 +55,17 @@ public class UserDto extends BasicUserDto {
       regexp = CssConstant.SECRETKEY_PATTERN,
       message = CssConstant.MESSAGE_INVALID_PATTERN,
       groups = {RegisterUserValidation.class, ChangePasswordValidation.class})
-  private String confirmPassword;
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private String confirmPassword; // this is user input
+
+  @Length(
+      max = CssConstant.TEXTAREA_MAXLENGTH_REGULAR,
+      groups = {MyProfileValidation.class})
+  @Pattern(
+      regexp = CssConstant.ALPHANUMERIC_SOMESPECIALCHARS_PATTERN,
+      message = CssConstant.MESSAGE_INVALID_PATTERN,
+      groups = {MyProfileValidation.class})
+  private String publicProfile;
 
   private boolean accountExpired;
   private boolean accountLocked; // used during verification of account

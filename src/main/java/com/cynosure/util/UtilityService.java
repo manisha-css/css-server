@@ -26,8 +26,9 @@ public class UtilityService {
   @Autowired ModelMapper userModelMapper;
 
   public static String generateRandomPassword() {
-    Generex generex = new Generex("[0-3]([a-c]|[e-g]{1,2})");
-    // Generate random String
+    // regex is in compiance with CssConstant.SECRETKEY_PATTERN) but this needs
+    // simple and explicit value
+    Generex generex = new Generex("[A-Z]{1}[a-z]{3}[@#]{1}[0-9]{3}");
     return generex.random();
   }
 

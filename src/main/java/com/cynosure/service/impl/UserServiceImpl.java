@@ -45,6 +45,8 @@ public class UserServiceImpl implements IUserService {
     // set verification code
     int code = 10000 + new Random().nextInt(90000);
     user.setVerificationCode(Integer.toString(code));
+    // update to userDto as this is used for notification
+    userDto.setUserVerificationCode(Integer.toString(code));
     user.setAccountLocked(true);
 
     User userSaved = userRepo.save(user);
@@ -68,8 +70,9 @@ public class UserServiceImpl implements IUserService {
     return utilityService.convertToUserDto(userRepo.findById(userId).orElse(null));
   }
 
+  // TODO find Valid ID => add additional conditions
   @Override
-  public UserDto findValidUserByIdElseNull(long userId) {
+  public UserDto findValidUserByIdElseException(long userId) {
     return utilityService.convertToUserDto(
         userRepo
             .findById(userId)
@@ -77,7 +80,7 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
-  public UserDto findValidUserByIdElseException(long userId) {
+  public UserDto findValidUserByIdElseNull(long userId) {
     return utilityService.convertToUserDto(userRepo.findById(userId).orElse(null));
   }
 
@@ -164,8 +167,9 @@ public class UserServiceImpl implements IUserService {
 
   @Override
   public void updateUserProfile(UserDto userDto) {
-
-    long result = userRepo.updateUserProfile(userDto.getId(), userDto.getPublicProfile());
+    long result =
+        userRepo.updateUserProfile(
+            userDto.getId(), userDto.getGivenName(), userDto.getPublicProfile());
     if (result <= 0) {
       throw new CssAppRuntimeException("Some error in updating user during update user profile");
     }

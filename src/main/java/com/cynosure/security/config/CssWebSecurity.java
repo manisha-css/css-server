@@ -35,7 +35,7 @@ public class CssWebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers("/resources/**")
         .antMatchers(HttpMethod.GET, "/healthcheck/**")
         .antMatchers(HttpMethod.POST, "/user/register")
-        .antMatchers(HttpMethod.POST, "/user/verificationcode/**")
+        .antMatchers(HttpMethod.POST, "/user/verification/**")
         .antMatchers(HttpMethod.POST, "/user/forgetPassword")
         .antMatchers(HttpMethod.POST, "/contactus")
         .antMatchers(
