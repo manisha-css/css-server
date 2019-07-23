@@ -70,31 +70,32 @@ public class UserController {
     return saveUserDto(userDto);
   }
 
-  @PostMapping("/resendVerificationlink")
-  public ResponseEntity<InfoResponse> resendVerificationLink(
-      @Validated(BasicUserDto.UserNameValidation.class) @RequestBody UserDto requserDto) {
-    UserDto userDto = userService.findUserByEmailElseNull(requserDto.getUserName());
-    InfoResponse infoResponse = new InfoResponse();
-    // here exception is not thrown as want to display different message.
-    if (userDto == null) {
-      infoResponse.setMessage(translator.toLocale(USER_NOTFOUND, null));
-      return new ResponseEntity<>(infoResponse, HttpStatus.UNPROCESSABLE_ENTITY);
-    }
-    if (!userDto.isAccountLocked()) {
-      infoResponse.setMessage(translator.toLocale("verify-user.alreadyverified.error", null));
-      return new ResponseEntity<>(infoResponse, HttpStatus.BAD_REQUEST);
-    }
-    // i.e. if user is not null and locked)
-    try {
-      notificationService.createNotificationForVerification(userDto);
-      infoResponse.setMessage(translator.toLocale("resend-verification-link.save.success", null));
-      return new ResponseEntity<>(infoResponse, HttpStatus.OK);
-    } catch (JsonProcessingException jsonEx) {
-      LOGGER.error("Issue is saving in notification table: {}", jsonEx);
-      infoResponse.setMessage(translator.toLocale("resend-verification-link.save.error", null));
-      return new ResponseEntity<>(infoResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+  //  @PostMapping("/resendVerificationlink")
+  //  public ResponseEntity<InfoResponse> resendVerificationLink(
+  //      @Validated(BasicUserDto.UserNameValidation.class) @RequestBody UserDto requserDto) {
+  //    UserDto userDto = userService.findUserByEmailElseNull(requserDto.getUserName());
+  //    InfoResponse infoResponse = new InfoResponse();
+  //    // here exception is not thrown as want to display different message.
+  //    if (userDto == null) {
+  //      infoResponse.setMessage(translator.toLocale(USER_NOTFOUND, null));
+  //      return new ResponseEntity<>(infoResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+  //    }
+  //    if (!userDto.isAccountLocked()) {
+  //      infoResponse.setMessage(translator.toLocale("verify-user.alreadyverified.error", null));
+  //      return new ResponseEntity<>(infoResponse, HttpStatus.BAD_REQUEST);
+  //    }
+  //    // i.e. if user is not null and locked)
+  //    try {
+  //      notificationService.createNotificationForVerification(userDto);
+  //      infoResponse.setMessage(translator.toLocale("resend-verification-link.save.success",
+  // null));
+  //      return new ResponseEntity<>(infoResponse, HttpStatus.OK);
+  //    } catch (JsonProcessingException jsonEx) {
+  //      LOGGER.error("Issue is saving in notification table: {}", jsonEx);
+  //      infoResponse.setMessage(translator.toLocale("resend-verification-link.save.error", null));
+  //      return new ResponseEntity<>(infoResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+  //    }
+  //  }
 
   @PostMapping("/forgetPassword")
   public ResponseEntity<InfoResponse> forgetPassword(
